@@ -1,3 +1,45 @@
+import os
+import streamlit as st
+
+st.set_page_config(
+    page_title="Travel Advisor AI",
+    page_icon="✈️",
+    layout="wide"
+)
+
+# API Key
+if "api_key" not in st.session_state:
+    st.session_state.api_key = ""
+
+if not st.session_state.api_key:
+    st.markdown("## ✈️ Travel Advisor AI")
+    st.markdown("Enter your OpenAI API key to start your AI travel assistant.")
+
+    api_key = st.text_input(
+        "OpenAI API Key",
+        type="password",
+        placeholder="sk-...",
+        help="Your API key is used to connect to OpenAI."
+    )
+
+    if st.button("🚀 Start Travel Advisor", use_container_width=True):
+        if api_key.strip():
+            st.session_state.api_key = api_key.strip()
+            st.rerun()
+        else:
+            st.error("Please enter your OpenAI API key.")
+
+    st.stop()
+
+# Make the key available to OpenAI Agents SDK
+os.environ["OPENAI_API_KEY"] = st.session_state.api_key
+
+
+
+
+
+
+
 import asyncio
 import io
 import wave
